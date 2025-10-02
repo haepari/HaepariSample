@@ -152,11 +152,35 @@ To disable the widget (default state):
     android:exported="false">
 ```
 
+## Git Push Security Rules
+
+**IMPORTANT**: This repository is PUBLIC. Never commit sensitive information:
+
+### Blocked Files (already in .gitignore)
+- **google-services.json**: Firebase configuration with API keys
+- **API Keys**: Any files containing API keys, tokens, or secrets
+- **Properties files**: `*.properties` (except `gradle.properties`)
+- **Environment files**: `.env`, `.env.local`, `.env.production`
+- **Secret configurations**: `secrets.xml`, `secrets.json`, `api_keys.xml`, `config.json`
+- **Keystore files**: `*.jks`, `*.keystore`
+
+### Before Every Git Push
+1. Review changes with `git diff` and `git status`
+2. Verify no API keys, tokens, or passwords are in code
+3. Check that all sensitive files are listed in `.gitignore`
+4. Use environment variables or build config fields for sensitive data
+
+### Safe Practices
+- Store API keys in `local.properties` (git-ignored) and access via `BuildConfig`
+- Use Firebase Remote Config for server-managed configurations
+- Document required keys in README without exposing actual values
+- Use placeholder values in committed configuration files
+
 ## Important Notes
 
 - **Timber**: Use `Timber.d()`, `Timber.e()`, etc. for logging (not `Log`)
 - **Coroutines**: Use `viewModelScope` in ViewModels for coroutines
 - **Navigation**: Use `navController.navigate()` with `popUpTo` to manage back stack
 - **DataStore**: All preference access is async (Flow-based)
-- **Firebase**: Requires valid `google-services.json` from Firebase Console
+- **Firebase**: Requires valid `google-services.json` from Firebase Console (keep in `.gitignore`)
 - **Version Catalog**: Always reference dependencies via `libs.*` in build files
